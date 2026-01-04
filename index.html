@@ -3,83 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FindaFixer - Diagnostic Mode</title>
+    <title>FindaFixer | Toronto Elite Network</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        /* HTML-only Loading State */
-        #debug-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff; z-index: 9999; padding: 20px; font-family: monospace;
-        }
+        .card-shadow { box-shadow: 0 10px 30px -12px rgba(0,0,0,0.08); }
+        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); }
     </style>
 </head>
-<body class="bg-slate-50">
-
-    <div id="debug-overlay">
-        <h1 class="text-2xl font-bold mb-4">System Status:</h1>
-        <ul id="status-log" class="list-disc pl-5 space-y-2">
-            <li>HTML Loaded... ✅</li>
-            <li id="step-react">Waiting for React... ⏳</li>
-            <li id="step-babel">Waiting for Babel... ⏳</li>
-            <li id="step-app">Waiting for App Mount... ⏳</li>
-        </ul>
-        <div id="error-box" class="mt-8 p-4 bg-red-100 text-red-700 hidden rounded border border-red-300"></div>
-    </div>
-
+<body class="bg-[#F8FAFC] text-slate-900 font-sans">
     <div id="root"></div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
-
-    <script>
-        // Update status log as scripts load
-        if (window.React) document.getElementById('step-react').innerText = 'React Loaded... ✅';
-        if (window.Babel) document.getElementById('step-babel').innerText = 'Babel Loaded... ✅';
-        
-        window.onerror = function(msg, url, line) {
-            const errBox = document.getElementById('error-box');
-            errBox.style.display = 'block';
-            errBox.innerHTML = `<strong>CRITICAL ERROR:</strong><br>${msg}<br><small>${url}:${line}</small>`;
-            return false;
-        };
-    </script>
-
     <script type="text/babel">
-        try {
-            const { useState, useEffect } = React;
+        const { useState, useMemo } = React;
 
-            const App = () => {
-                return (
-                    <div className="min-h-screen flex flex-col items-center justify-center p-4">
-                        <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full text-center border border-gray-200">
-                            <div className="text-6xl mb-4">🚀</div>
-                            <h1 className="text-3xl font-black text-slate-900 mb-2">IT WORKS!</h1>
-                            <p className="text-slate-500 mb-6">React is running perfectly.</p>
-                            <button onClick={() => alert("Interactivity Confirmed!")} className="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 w-full">
-                                Click Me to Test
-                            </button>
-                        </div>
+        // --- DATABASE ---
+        const TRADES = [
+            { type: 'Plumber', label: 'Plumbers', icon: 'fa-faucet' },
+            { type: 'Electrician', label: 'Electricians', icon: 'fa-bolt' },
+            { type: 'HVAC', label: 'HVAC', icon: 'fa-wind' }
+        ];
+
+        const DATA = [
+            { id: 1, name: "Toronto Pro Plumbing", trade: "Plumber", rating: 4.9, reviews: 128, score: 98, area: "Downtown", img: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=400" },
+            { id: 2, name: "FlowMasters", trade: "Plumber", rating: 4.8, reviews: 95, score: 94, area: "Etobicoke", img: "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=400" },
+            { id: 3, name: "BrightSpark", trade: "Electrician", rating: 4.9, reviews: 150, score: 99, area: "North York", img: "https://images.unsplash.com/photo-1621905252507-b35492ccba0b?w=400" },
+            { id: 4, name: "Volt Techs", trade: "Electrician", rating: 4.7, reviews: 112, score: 90, area: "Mississauga", img: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400" },
+            { id: 5, name: "CoolBreeze HVAC", trade: "HVAC", rating: 4.9, reviews: 201, score: 97, area: "Markham", img: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400" },
+            { id: 6, name: "HeatWave Systems", trade: "HVAC", rating: 4.8, reviews: 89, score: 95, area: "Vaughan", img: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=400" }
+        ];
+
+        // --- COMPONENTS ---
+        const ProviderCard = ({ pro }) => (
+            <div className="bg-white rounded-[2.5rem] p-5 card-shadow border border-white hover:border-blue-100 transition-all group">
+                <div className="relative h-48 rounded-[2rem] overflow-hidden mb-6">
+                    <img src={pro.img} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                    <div className="absolute top-4 right-4 glass px-3 py-1.5 rounded-full text-[10px] font-black text-blue-700">
+                        {pro.score} TRUST INDEX
                     </div>
-                );
+                </div>
+                <h3 className="text-xl font-black mb-1">{pro.name}</h3>
+                <div className="flex items-center gap-2 mb-4 text-sm font-bold text-slate-400">
+                    <i className="fas fa-star text-yellow-400"></i>
+                    <span className="text-slate-900">{pro.rating}</span>
+                    <span>({pro.reviews} reviews) • {pro.area}</span>
+                </div>
+                <button className="w-full bg-blue-700 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-blue-800 shadow-lg shadow-blue-500/20 transition-all active:scale-95">
+                    Get Free Quote
+                </button>
+            </div>
+        );
+
+        const App = () => {
+            const [selectedTrade, setSelectedTrade] = useState('Plumber');
+            const [verifying, setVerifying] = useState(false);
+
+            const filtered = useMemo(() => DATA.filter(p => p.trade === selectedTrade), [selectedTrade]);
+
+            const runVerify = () => {
+                setVerifying(true);
+                setTimeout(() => setVerifying(false), 1200);
             };
 
-            const root = ReactDOM.createRoot(document.getElementById('root'));
-            root.render(<App />);
+            return (
+                <div className="min-h-screen">
+                    <nav className="h-20 glass sticky top-0 z-50 px-8 flex items-center justify-between border-b border-slate-100">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-blue-700 rounded-xl flex items-center justify-center text-white">
+                                <i className="fas fa-hammer"></i>
+                            </div>
+                            <span className="text-xl font-black tracking-tighter">Finda<span className="text-blue-700">Fixer</span></span>
+                        </div>
+                        <button className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-700">About the Index</button>
+                    </nav>
 
-            // If we got here, hide the debug overlay
-            setTimeout(() => {
-                const overlay = document.getElementById('debug-overlay');
-                overlay.style.opacity = '0';
-                overlay.style.pointerEvents = 'none';
-                document.getElementById('step-app').innerText = 'App Mounted... ✅';
-            }, 500);
+                    <header className="py-16 px-6 text-center max-w-4xl mx-auto">
+                        <div className="flex justify-center gap-3 mb-8">
+                            {TRADES.map(t => (
+                                <button 
+                                    key={t.type}
+                                    onClick={() => setSelectedTrade(t.type)}
+                                    className={`px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all border ${
+                                        selectedTrade === t.type ? 'bg-blue-700 text-white border-blue-700 shadow-xl shadow-blue-500/30 scale-105' : 'bg-white text-slate-400 border-slate-200'
+                                    }`}
+                                >
+                                    <i className={`fas ${t.icon} mr-2`}></i> {t.label}
+                                </button>
+                            ))}
+                        </div>
+                        <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 mb-6">
+                            Toronto's Most <span className="text-blue-700">Trusted</span> {selectedTrade}s
+                        </h1>
+                        <div className="bg-white p-2 rounded-3xl border border-slate-200 shadow-lg flex max-w-lg mx-auto overflow-hidden">
+                            <input className="flex-1 px-4 font-bold outline-none" placeholder="Search neighborhood..." />
+                            <button onClick={runVerify} className="bg-slate-900 text-white px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest">
+                                {verifying ? 'Syncing...' : 'Verify Pro'}
+                            </button>
+                        </div>
+                    </header>
 
-        } catch (error) {
-            console.error(error);
-            document.getElementById('error-box').style.display = 'block';
-            document.getElementById('error-box').innerText = "React Error: " + error.message;
-        }
+                    <main className="max-w-7xl mx-auto px-6 pb-20">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {filtered.map(pro => <ProviderCard key={pro.id} pro={pro} />)}
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>
