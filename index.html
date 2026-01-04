@@ -1,55 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>FindaFixer | Top 50 Licensed Plumbers in Toronto (2025)</title>
-  <meta name="description" content="Search the definitive directory of the top 50 most-reviewed plumbers in Toronto.">
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-  <script type="importmap">
-  {
-    "imports": {
-      "react": "https://esm.sh/react@18.2.0",
-      "react-dom": "https://esm.sh/react-dom@18.2.0",
-      "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
-      "lucide-react": "https://esm.sh/lucide-react@0.263.1",
-      "clsx": "https://esm.sh/clsx@2.0.0",
-      "tailwind-merge": "https://esm.sh/tailwind-merge@1.14.0"
-    }
-  }
-  </script>
-  
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-  <style>
-    body { font-family: 'Inter', sans-serif; background-color: #f9fafb; margin: 0; }
-    #root { min-height: 100vh; }
-    /* Ensure the map container has height if used in your components */
-    .leaflet-container { height: 100%; width: 100%; }
-  </style>
-</head>
-<body>
-  <div id="root"></div>
-
-  <script type="text/babel" data-type="module" data-presets="react,typescript">
-    import React from 'react';
-    import { createRoot } from 'react-dom/client';
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindaFixer | Toronto Elite Network</title>
     
-    // We import your main file. 
-    // Ensure "App.jsx" is in the same folder as this index.html on GitHub.
-    import App from './App.jsx';
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
 
-    const container = document.getElementById('root');
-    const root = createRoot(container);
-    root.render(<App />);
-  </script>
+    <script type="text/babel" data-presets="react">
+        // --- 1. MOCK DATA (Constants) ---
+        const TRADES = [
+            { type: 'Plumber', label: 'Plumbers', icon: 'fa-faucet' },
+            { type: 'Electrician', label: 'Electricians', icon: 'fa-bolt' },
+            { type: 'HVAC', label: 'HVAC', icon: 'fa-wind' }
+        ];
+
+        const MOCK_PROFESSIONALS = [
+            { id: 1, name: "Toronto Pro Plumbing", trade: "Plumber", rating: 4.9, reviewCount: 128, trustScore: 98, neighborhood: "Downtown", clientType: "Both", isEmergency: true },
+            { id: 2, name: "Elite Electric", trade: "Electrician", rating: 4.8, reviewCount: 95, trustScore: 94, neighborhood: "Etobicoke", clientType: "Residential", isEmergency: false }
+        ];
+
+        // --- 2. MINI COMPONENTS ---
+        const Mascot = ({ mood }) => (
+            <div className="text-4xl">🛠️</div>
+        );
+
+        const ProviderCard = ({ professional }) => (
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all">
+                <div className="flex justify-between items-start mb-4">
+                    <h3 className="font-black text-xl text-slate-900">{professional.name}</h3>
+                    <span className="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-1 rounded-lg uppercase">
+                        {professional.trustScore} FTI
+                    </span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-slate-500 mb-4">
+                    <i className="fas fa-star text-yellow-400"></i>
+                    <span className="font-bold text-slate-700">{professional.rating}</span>
+                    <span>({professional.reviewCount} reviews)</span>
+                </div>
+                <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
+                    {professional.neighborhood} • {professional.clientType}
+                </div>
+                <button className="w-full bg-blue-700 text-white py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-blue-800 transition-colors">
+                    Contact Professional
+                </button>
+            </div>
+        );
+
+        // --- 3. MAIN APP ---
+        const App = () => {
+            const [selectedTrade, setSelectedTrade] = React.useState('Plumber');
+
+            const filtered = MOCK_PROFESSIONALS.filter(p => p.trade === selectedTrade);
+
+            return (
+                <div className="min-h-screen">
+                    <nav className="bg-white border-b h-16 flex items-center px-6 sticky top-0 z-50">
+                        <div className="max-w-7xl mx-auto w-full flex justify-between items-center">
+                            <div className="flex items-center gap-2">
+                                <Mascot mood="happy" />
+                                <span className="font-black text-xl tracking-tighter">Finda<span className="text-blue-700">Fixer</span></span>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <header className="py-12 bg-white border-b text-center px-6">
+                        <div className="flex justify-center gap-2 mb-6">
+                            {TRADES.map(t => (
+                                <button 
+                                    key={t.type}
+                                    onClick={() => setSelectedTrade(t.type)}
+                                    className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all ${selectedTrade === t.type ? 'bg-blue-700 text-white' : 'bg-white text-slate-400'}`}
+                                >
+                                    {t.label}
+                                </button>
+                            ))}
+                        </div>
+                        <h1 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter">
+                            Toronto's Top <span className="text-blue-700">{selectedTrade}s</span>
+                        </h1>
+                    </header>
+
+                    <main className="max-w-7xl mx-auto p-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {filtered.map(p => <ProviderCard key={p.id} professional={p} />)}
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
 </html>
