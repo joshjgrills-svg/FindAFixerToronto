@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary Meta Tags -->
+  <title>FindaFixer | Top 50 Licensed Plumbers in Toronto (2025)</title>
+  <meta name="title" content="FindaFixer | Top 50 Licensed Plumbers in Toronto (2025)">
+  <meta name="description" content="Search the definitive directory of the top 50 most-reviewed plumbers in Toronto. Compare 24/7 emergency services, licensed pros, and get AI-powered diagnostics. Serving Downtown, North York, Etobicoke, and the GTA.">
+  <meta name="keywords" content="Toronto plumbers, emergency plumber Toronto, 24/7 plumbing service GTA, licensed plumber Toronto, drain cleaning Toronto, plumbing repair Toronto, best plumbers Toronto reviews">
+  <link rel="canonical" href="https://findafixer.ca/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://findafixer.ca/">
+  <meta property="og:title" content="FindaFixer | Toronto's Top 50 Verified Plumbers">
+  <meta property="og:description" content="Connect with Toronto's elite plumbing network. 24/7 emergency response, verified pros, and AI-powered leak detection.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=1200&h=630">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://findafixer.ca/">
+  <meta property="twitter:title" content="FindaFixer | Toronto's Top 50 Verified Plumbers">
+  <meta property="twitter:description" content="Toronto's elite plumbing network at your fingertips. Find top-rated experts and get AI-powered help instantly.">
+  <meta property="twitter:image" content="https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=1200&h=630">
+
+  <!-- JSON-LD Structured Data for Local Business Directory -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Top 50 Plumbers in Toronto",
+    "description": "A curated directory of the most highly rated plumbing services in Toronto based on verified Google reviews.",
+    "url": "https://findafixer.ca",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://findafixer.ca"
+    },
+    "numberOfItems": 50
+  }
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Leaflet & MarkerCluster -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+  
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9fafb; /* gray-50 */
+      -webkit-font-smoothing: antialiased;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+    #map { height: 100%; width: 100%; border-radius: 40px; }
+    .leaflet-container { font-family: 'Inter', sans-serif; }
+    
+    /* Marker Cluster Custom Override */
+    .custom-cluster-icon {
+      background: transparent !important;
+      border: none !important;
+    }
+  </style>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react@^19.2.3",
+      "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+      "react/": "https://esm.sh/react@^19.2.3/",
+      "@google/genai": "https://esm.sh/@google/genai@^1.34.0"
+    }
+  }
+  </script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+  <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "name": "FindaFixer Toronto",
+  "description": "The premium directory for Toronto's top 50 plumbers. Featuring 24/7 emergency service filtering, verified trade credentials, and Finn—the AI plumbing assistant.",
+  "requestFramePermissions": [
+    "geolocation",
+    "camera"
+  ]
+}
